@@ -79,4 +79,7 @@ function renderPairs(array) {
   }
 }
 
-renderPairs(pairedStudentsOutput);
+
+document.getElementById('button').addEventListener('click', function(){
+  renderPairs(pairedStudentsOutput);
+})
