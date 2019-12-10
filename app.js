@@ -2,8 +2,6 @@
 
 console.log('connected!');
 
-
-
 var students = [
   'Andrew',
   'Susana',
@@ -17,7 +15,6 @@ var students = [
   'Eyob',
   'Eugene'
 ];
-
 
 function randoStudent(array){
   console.log('randoStudent is running!');
@@ -40,7 +37,7 @@ function randoStudent(array){
     };
   };
 
-  var randoStudentsOutput = randoStudent(students);
+var randoStudentsOutput = randoStudent(students);
 
 function pairStudents(array) {
   let studentPairsArray = [];
@@ -83,7 +80,3 @@ function renderPairs(array) {
 }
 
 renderPairs(pairedStudentsOutput);
-
-
-
-  
