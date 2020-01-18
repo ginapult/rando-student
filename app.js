@@ -1,85 +1,65 @@
 'use strict';
 
-console.log('connected!');
+function randoPairMe () {
 
+// get array of students
 var students = [
-  'Andrew',
-  'Susana',
   'Blandine',
-  'Matthew',
-  'Kim',
-  'Patrick',
-  'Robert',
-  'Harlen',
   'Ken',
-  'Eyob',
-  'Eugene'
+  'Matthew',
+  'Jin',
+  'Andrew',
+  'Harlen',
+  'Eugene',
+  'Robert',
+  'Vij',
+  'Ally',
+  'Cait',
+  'Tyler',
+  'Cindy'
 ];
 
-function randoStudent(array){
-  console.log('randoStudent is running!');
-  if(!array) {
-    return('No students here.')
-  }
-  else {
-    let randoStudentArray = [];
-    let randoNumsUsed = [];
-    for (let i = 0; i < array.length; i++) {
-      let randoNum = Math.floor(Math.random() * array.length);
-      while (randoNumsUsed.includes(randoNum)) {
-        randoNum = Math.floor(Math.random() * array.length);
-      }
-      randoNumsUsed.push(randoNum);
-      randoStudentArray.push(array[randoNum]);
-      }
-      console.log (randoStudentArray);
-      return randoStudentArray;
-    };
-  };
+console.log('original array: ', students);
 
-var randoStudentsOutput = randoStudent(students);
+// randomize array of students
+for (let i = students.length -1; i > 0; i--) {
+  const j = Math.floor(Math.random() * i);
+  const temp = students [i];
+  students[i] = students [j];
+  students[j] = temp;
+}
+console.log('randomized array: ', students);
 
-function pairStudents(array) {
-  let studentPairsArray = [];
-  let pair = []
-  for (let i = 0; i < array.length; i+=2) {
-    pair.push(array[i]);
-    pair.push(array[i+1]);
-    // if last pair[1]=undefined, then push last pair[0] to studentPairsArray[studentPairsArray.length -1]
-    if (pair[1] === undefined) {
-      studentPairsArray[studentPairsArray.length -1].push(pair[0]);
-    } else {
-      studentPairsArray.push(pair);
-    }
-    pair = [];
-    }
-  console.log(studentPairsArray);
-  return studentPairsArray;
-};
+// pair random array
+let pairedStudents = students.reduce((result, value, index, array) => {
+  if (index % 2 === 0)
+  result.push(students.slice(index, index + 2));
+  return result;
+}, []);
 
-var pairedStudentsOutput = pairStudents(randoStudentsOutput);
+console.log('pairedStudents array: ', pairedStudents);
 
-// DOM manipulation
-
-function renderPairs(array) {
-  for (let i = 0; i < array.length; i++) {
-    let string = "";
-    for (let j = 0; j < array[i].length; j++) {
-      if (j === 0) {
-        string = string + array[i][j]
-      } else {
-        string = string + " & " + array[i][j];
-      }
-    }
-    var pairsHolder = document.getElementById('pairs-holder');
-    var newLi = document.createElement('li');
-    newLi.textContent = string;
-    pairsHolder.appendChild(newLi);
-    console.log(string);
-  }
+if (pairedStudents.length % 2 !== 0) {
+  console.log('not even');
 }
 
+// print pair to DOM
+let pairsHolder = document.getElementById('pairs-holder');
 
+pairedStudents.forEach( pair => {
+  let newLi = document.createElement('li');
+  if (pair.length === 2) {
+    newLi.textContent = `${pair[0]} & ${pair[1]}`;
+  } else {
+    newLi.textContent = `${pair[0]}`;
+  }
+  pairsHolder.appendChild(newLi);
+})
+}
+
+randoPairMe();
+
+// click event to clear and re-render the pairs-holder
 document.getElementById('button').addEventListener('click', function(){
-  renderPairs(pairedStudentsOutput);
+  location.reload();
 })
